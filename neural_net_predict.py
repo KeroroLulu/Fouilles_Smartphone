@@ -1,5 +1,5 @@
 from sklearn import preprocessing
-from sklearn.svm import SVC
+from sklearn.neural_network import MLPClassifier
 import numpy as np
 
 
@@ -17,7 +17,7 @@ def read_data(fileX, fileY):
     return (X, Y)
 
 
-def eval_svc(predicts, y_test):
+def eval_neural(predicts, y_test):
     mistake = 0
     nb_lines = 0
     for i in range(len(predicts)):
@@ -37,7 +37,8 @@ X_test = np.array(test_X)
 y_test = np.array(test_Y)
 X_train = preprocessing.scale(X_train)
 X_test = preprocessing.scale(X_test)
-model = SVC(C=1.5, kernel="linear", gamma="auto")
-model.fit(X_train, y_train)
-predictions = model.predict(X_test)
-print(eval_svc(predictions, y_test))
+neural = MLPClassifier(solver='lbfgs', alpha=1e-5,
+                       hidden_layer_sizes=(5, 2), random_state=1)
+neural.fit(X_train, y_train)
+predictions = neural.predict(X_test)
+print(eval_neural(predictions, y_test))

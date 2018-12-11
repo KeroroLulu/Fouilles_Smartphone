@@ -6,22 +6,18 @@ import numpy as np
 def read_data(fileX, fileY):
     X = []
     Y = []
-    count = 0
     for line in open(fileX, 'r').readlines():
         tmp = line.split(' ')
         x_tmp = []
         for i in range(len(tmp)):
             x_tmp.append(float(tmp[i]))
         X.append(x_tmp)
-        count += 1
-    count = 0
     for line in open(fileY, 'r').readlines():
         Y.append(int(line))
-        count += 1
     return (X, Y)
 
 
-def eval_svc(predicts, y_test):
+def eval_rfc(predicts, y_test):
     mistake = 0
     nb_lines = 0
     for i in range(len(predicts)):
@@ -31,17 +27,17 @@ def eval_svc(predicts, y_test):
     return mistake/nb_lines
 
 
-(train_X, train_Y) = read_data("HAPT_Data_Set/Train/X_train.txt",
-                               "HAPT_Data_Set/Train/y_train.txt")
-(test_X, test_Y) = read_data("HAPT_Data_Set/Test/X_test.txt",
-                             "HAPT_Data_Set/Test/y_test.txt")
+(train_X, train_Y) = read_data("Train/X_train.txt",
+                               "Train/y_train.txt")
+(test_X, test_Y) = read_data("Test/X_test.txt",
+                             "Test/y_test.txt")
 X_train = np.array(train_X)
 y_train = np.array(train_Y)
 X_test = np.array(test_X)
 y_test = np.array(test_Y)
 X_train = preprocessing.scale(X_train)
 X_test = preprocessing.scale(X_test)
-clf = RandomForestClassifier(n_estimators=1000, max_depth=10, random_state=0)
-clf.fit(X_train, y_train)
-predictions = clf.predict(X_test)
-print(eval_svc(predictions, y_test))
+rfc = RandomForestClassifier(n_estimators=600, max_depth=7, random_state=0)
+rfc.fit(X_train, y_train)
+predictions = rfc.predict(X_test)
+print(eval_rfc(predictions, y_test))

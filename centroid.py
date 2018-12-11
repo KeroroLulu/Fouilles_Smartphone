@@ -1,5 +1,5 @@
 from sklearn import preprocessing
-from sklearn.svm import SVC
+from sklearn.neighbors.nearest_centroid import NearestCentroid
 import numpy as np
 
 
@@ -17,7 +17,7 @@ def read_data(fileX, fileY):
     return (X, Y)
 
 
-def eval_svc(predicts, y_test):
+def eval_centroid(predicts, y_test):
     mistake = 0
     nb_lines = 0
     for i in range(len(predicts)):
@@ -37,7 +37,7 @@ X_test = np.array(test_X)
 y_test = np.array(test_Y)
 X_train = preprocessing.scale(X_train)
 X_test = preprocessing.scale(X_test)
-model = SVC(C=1.5, kernel="linear", gamma="auto")
-model.fit(X_train, y_train)
-predictions = model.predict(X_test)
-print(eval_svc(predictions, y_test))
+centroid = NearestCentroid()
+centroid.fit(X_train, y_train)
+predictions = centroid.predict(X_test)
+print(eval_centroid(predictions, y_test))
