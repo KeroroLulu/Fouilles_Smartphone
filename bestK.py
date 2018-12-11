@@ -58,7 +58,7 @@ def find_best_k(X, y):
         X_tr, X_te = [X[i] for i in train_index], [X[i] for i in test_index]
         y_tr, y_te = [y[i] for i in train_index], [y[i] for i in test_index]
         for i in sampled_range(1, 9830, 100):
-            neigh = KNeighborsClassifier(n_neighbors=i, p=1)
+            neigh = KNeighborsClassifier(n_neighbors=i, algorithm="auto", p=1)
             neigh.fit(X_tr, y_tr)
             predictions = neigh.predict(X_te)
             tmp = eval_kneigh(predictions, y_te)
